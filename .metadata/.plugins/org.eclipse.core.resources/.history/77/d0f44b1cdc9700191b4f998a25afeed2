@@ -1,0 +1,91 @@
+package com.axelor.restdemo.service;
+
+import javax.persistence.EntityManager;
+
+import com.axelor.restdemo.domain.Address;
+import com.axelor.restdemo.domain.Employee;
+import com.axelor.restdemo.domain.Phone;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.persist.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Singleton;
+
+@Singleton
+public class ServiceImpl implements Service {
+
+  @Inject Provider<EntityManager> entityManagerProvider;
+
+  EntityManager entityManager;
+  int id = 0;
+  int id_address = 0;
+  List<Phone> Numbers = new ArrayList<>();
+  Address address;
+  Employee employee;
+
+  
+
+
+  @Transactional(rollbackOn = Exception.class)
+  @Override
+  public void insert(String name, String contact, String address) {
+   
+    entityManager = entityManagerProvider.get();
+    List list =entityManager.createQuery("select id from Employee e where e.name='" + name + "'")
+            .getResultList();
+    
+    if (list.isEmpty()) {
+      
+      employee = new Employee();
+      employee.setName(name);
+      entityManager.persist(employee);
+     
+      Numbers.add(new Phone(contact));
+      employee.setPhone(Numbers);
+      entityManager.persist(employee);
+      
+    } else {
+      
+      id = (int) list.get(0);
+      employee = entityManager.find(Employee.class, id);
+      employee.getPhone().add(new Phone(contact));
+      entityManager.persist(employee);
+      
+    }
+
+    List list_city =
+        entityManager
+            .createQuery("select address_id from Address a where a.city='" + address + "'")
+            .getResultList();
+
+    if (list_city.isEmpty()) {
+      
+      this.address = new Address();
+      this.address.setCity(address);
+      employee.setAddress(this.address);
+      entityManager.persist(employee);
+     
+    } else {
+      entityManager = entityManagerProvider.get();
+      id_address = (int) list_city.get(0);
+      this.address = entityManager.find(Address.class, id_address);
+       //employee.setAddress(this.address);
+      entityManager.persist(employee); 
+     
+    }
+   
+  }
+
+  @Override
+  public List<Employee> showAllEmployees() {
+    entityManager = entityManagerProvider.get();
+    List<Employee> employeeList = new ArrayList<>();
+
+    employeeList = entityManager.createQuery("from Employee").getResultList();
+
+    return employeeList;
+  }
+}

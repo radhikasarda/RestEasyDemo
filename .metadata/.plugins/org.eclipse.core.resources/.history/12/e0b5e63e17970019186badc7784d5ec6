@@ -1,0 +1,35 @@
+plugins {
+	id 'war'
+	id 'java'
+	id 'application'
+	id 'org.gretty' version '2.2.0'
+	id 'eclipse'
+}
+// In this section you declare where to find the dependencies of your project
+repositories {
+	// Use jcenter for resolving your dependencies.se
+	// You can declare any Maven/Ivy/file repository here.
+	jcenter()
+}
+
+dependencies {
+	// This dependency is found on compile classpath of this component and consumers.
+	compile 'com.google.guava:guava:23.0'
+
+	// Use JUnit test framework
+	testCompile 'junit:junit:4.12'
+	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+	
+	compile group: 'org.hibernate', name: 'hibernate-core', version: '5.3.7.Final'
+	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+
+	compile group: 'com.google.inject', name: 'guice', version: '4.2.1'
+	compile group: 'com.google.inject.extensions', name: 'guice-persist', version: '4.2.1'
+	compile group: 'com.google.inject.extensions', name: 'guice-servlet', version: '4.2.1'
+	
+	
+	
+}
+
+// Define the main class for the application
+mainClassName = 'App'

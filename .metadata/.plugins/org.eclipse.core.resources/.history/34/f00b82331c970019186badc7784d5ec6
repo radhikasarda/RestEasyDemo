@@ -1,0 +1,3 @@
+package com.axelor.restdemo.web;
+
+public class Controller {}

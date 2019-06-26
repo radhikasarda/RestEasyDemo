@@ -1,0 +1,28 @@
+package com.axelor.restdemo.service;
+
+import javax.persistence.EntityManager;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.persist.Transactional;
+import javax.inject.Singleton;
+
+
+
+@Singleton
+public class ServiceImpl implements Service{
+  
+  @Inject
+  Provider<EntityManager> entityManagerProvider;
+
+  EntityManager entityManager;
+  @Override
+  public void insert(String name, String contact, String address) {
+    entityManager = entityManagerProvider.get();
+    
+    
+  }
+  
+  
+  
+}

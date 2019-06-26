@@ -1,0 +1,20 @@
+package com.axelor.restdemo.web;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+
+import com.axelor.restdemo.service.Service;
+import com.google.inject.Inject;
+
+@Path("/")
+public class Controller {
+  
+  @Inject Service service;
+  
+  @Path("/add")
+  @POST
+  public void insert();
+  
+  
+  
+}

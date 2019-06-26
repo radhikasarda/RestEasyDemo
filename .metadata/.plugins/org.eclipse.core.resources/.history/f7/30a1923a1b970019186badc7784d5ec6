@@ -1,0 +1,8 @@
+package com.axelor.restdemo.module;
+
+public class GuiceModule {
+  
+  
+  
+  
+}

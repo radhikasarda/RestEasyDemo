@@ -1,0 +1,9 @@
+package com.axelor.restdemo.module;
+
+import org.jboss.resteasy.plugins.guice.GuiceResteasyBootstrapServletContextListener;
+
+public class MyGuiceConfig extends GuiceResteasyBootstrapServletContextListener{
+
+ 
+  
+}

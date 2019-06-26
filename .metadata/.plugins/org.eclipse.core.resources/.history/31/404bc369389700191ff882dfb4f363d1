@@ -1,0 +1,85 @@
+package com.axelor.restdemo.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+
+@Entity
+public class Employee {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String emp_name;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "EMPLOYEE_PHONE", joinColumns = { @JoinColumn(name = "EMPLOYEE_ID") }, inverseJoinColumns = { @JoinColumn(name = "PHONE_ID") })
+	private List<Phone> phone=new ArrayList<Phone>();
+	
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="address_id")
+	private Address traineeAddress;
+	
+
+	Employee(){}
+
+	public Employee( String emp_name, List<Phone> phone, Address traineeAddress) {
+		
+		this.emp_name = emp_name;
+		this.phone = phone;
+		this.traineeAddress = traineeAddress;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return emp_name;
+	}
+
+	public void setName(String emp_name) {
+		this.emp_name = emp_name;
+	}
+	
+	public List<Phone> getPhone() {
+		return phone;
+	}
+
+	public void setPhone(List<Phone> phone) {
+		this.phone = phone;
+	}
+	
+	public Address getTraineeAddress() {
+		return traineeAddress;
+	}
+
+
+	public void setTraineeAddress(Address traineeAddress) {
+		this.traineeAddress = traineeAddress;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", emp_name=" + emp_name + ", phone=" + phone + ", traineeAddress="
+				+ traineeAddress + "]";
+	}
+
+	
+	
+}

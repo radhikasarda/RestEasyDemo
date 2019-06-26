@@ -1,0 +1,13 @@
+package com.axelor.restdemo.service;
+
+public class ServiceImpl implements Service{
+
+  @Override
+  public void insert(String name, String contact, String address) {
+   
+    
+  }
+  
+  
+  
+}
