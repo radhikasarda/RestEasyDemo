@@ -80,5 +80,20 @@ public class ServiceImpl implements Service {
 		}
 		
 }
+
+	@Override
+	public List<Employee> search(String name) {
+		entityManager = entityManagerProvider.get();
+		List<Employee> employeeDetailList = new ArrayList<Employee>();
+		employeeDetailList=entityManager.createQuery("from Employee e where e.name='" + name + "'").getResultList();
+		for (Employee e : employeeDetailList) { 		      
+	           System.out.println(e); 		
+	      }
+		return employeeDetailList;
+	}
+
+
+
+
 }
 

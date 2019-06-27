@@ -9,5 +9,6 @@ public interface Service {
   void insert(String name,String contact,String address);
   public List<Employee> showAllEmployees();
   void delete(int id);
+  public List<Employee> search(String name);
   
 }

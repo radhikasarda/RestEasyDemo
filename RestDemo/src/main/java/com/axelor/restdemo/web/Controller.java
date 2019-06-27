@@ -24,46 +24,49 @@ import com.google.inject.Singleton;
 @Path("/")
 public class Controller {
 
-  @Inject Service service;
+	@Inject
+	Service service;
 
-  @GET
-  public void showEmployees(
-      @Context HttpServletRequest request, @Context HttpServletResponse response)
-      throws ServletException, IOException {
-    List<Employee> employeeList = service.showAllEmployees();
-    System.out.println("inside controller");
-    request.setAttribute("listUser", employeeList);
-    request.getRequestDispatcher("/index.jsp").forward(request, response);
-  }
+	@GET
+	public void showEmployees(@Context HttpServletRequest request, @Context HttpServletResponse response)
+			throws ServletException, IOException {
+		
+			List<Employee> employeeList = service.showAllEmployees();	
+			request.setAttribute("listEmployee", employeeList);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+	
+	}
 
-  @Path("/add")
-  @POST
-  public void insert(
-      @FormParam("name") String name,
-      @FormParam("contact") String contact,
-      @FormParam("city") String address,
-      @Context HttpServletRequest request,
-      @Context HttpServletResponse response)
-      throws ServletException, IOException {
+	@Path("/add")
+	@POST
+	public void insert(@FormParam("name") String name, @FormParam("contact") String contact,
+			@FormParam("city") String address, @Context HttpServletRequest request,
+			@Context HttpServletResponse response) throws ServletException, IOException {
 
-    service.insert(name, contact, address);
-    //  request.getRequestDispatcher("/index.jsp").forward(request, response);
+			service.insert(name, contact, address);
+			showEmployees(request, response);
+	
+	}
 
-    showEmployees(request, response);
-  }
+	@Path("/delete")
+	@GET
+	public void deleteEmployee(@QueryParam("id") int id, @Context HttpServletRequest request,
+			@Context HttpServletResponse response) throws ServletException, IOException {
 
-  @Path("/delete")
-  @GET
-  public void deleteemployee(
-      @QueryParam("id") int id,
-      @Context HttpServletRequest request,
-      @Context HttpServletResponse response)
-      throws ServletException, IOException {
-
-   
-    service.delete(id);
-    showEmployees(request, response);
-  }
-
+			service.delete(id);
+			showEmployees(request, response);
+	
+	}
+	@Path("/search")
+	@POST
+	public void searchEmployee(@FormParam("searchedName") String searchedName,@Context HttpServletRequest request,
+			@Context HttpServletResponse response) throws ServletException, IOException {
+		
+			List<Employee> employeeDetailList=service.search(searchedName);
+			request.setAttribute("detailList", employeeDetailList);
+			request.getRequestDispatcher("/search.jsp").forward(request, response);
+		
+	}
+	
 
 }

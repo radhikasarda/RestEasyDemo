@@ -21,7 +21,7 @@
         <tbody>
         <tr>
           <td>Name</td>
-          <td><input type="text" name="name" required/></td>
+          <td><input type="text" name="name" maxlength="15" required/></td>
         </tr>
       
         <tr>
@@ -31,14 +31,17 @@
         
         <tr>
           <td>City</td>
-          <td><input type="text" name="city" required/></td>
+          <td><input type="text" name="city" maxlength="15" required/></td>
         </tr>
         
         </tbody>
       </table> 
       <input type="submit" value="Submit" name="button" /> 
+
+      
+      
       <table border="1" cellpadding="4">
-            <caption><h2>List of Users</h2></caption>
+            <caption><h2>List of Employee</h2></caption>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
@@ -46,17 +49,17 @@
                 <th>Address</th>
                 
             </tr>
-            <c:forEach items="${listUser}" var="user" >
+            <c:forEach items="${listEmployee}" var="employee" >
                 <tr>
-                    <td><c:out value="${user.id}" /></td>
-                    <td><c:out value="${user.name}" /></td>
-                    <td><c:forEach items="${user.phone}" var="phone"><c:out value="${phone.phone_number}" /></td>
-                    <td><c:out value="${user.address.city}" /></c:forEach></td>
+                    <td><c:out value="${employee.id}" /></td>
+                    <td><c:out value="${employee.name}" /></td>
+                    <td><c:forEach items="${employee.phone}" var="phone"><c:out value="${phone.phone_number}" /></td>
+                    <td><c:out value="${employee.address.city}" /></c:forEach></td>
                     
                     <td>
-                     <a href="edit?id=<c:out value='${user.id}' />">Edit</a>
+                     <a href="edit?id=<c:out value='${employee.id}' />">Edit</a>
                      &nbsp;&nbsp;&nbsp;&nbsp;
-                     <a href="<%=request.getContextPath() %>/delete?id=<c:out value='${user.id}' />">Delete</a>                     
+                     <a href="<%=request.getContextPath() %>/delete?id=<c:out value='${employee.id}' />">Delete</a>                     
                     </td>
                 </tr>
             </c:forEach>
@@ -67,5 +70,17 @@
       
       </center>
     </form>
+          <form action="<%=request.getContextPath() %>/search" method="post" name="searchForm">
+      <center>
+      <table border="1" cellpadding="2">
+      <caption><h2>Search Users</h2></caption>
+      <tr>
+                <td>Search By Name</td>
+                <td><input type="text" name="searchedName" maxlength="15" required/></td>
+                <td><input type="submit" value="Submit" name="button" /> </td>
+      </tr>
+      </table>
+      </center>
+      </form>
 </body>
 </html>
