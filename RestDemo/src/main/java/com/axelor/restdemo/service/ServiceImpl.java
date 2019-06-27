@@ -17,63 +17,68 @@ import javax.inject.Singleton;
 @Singleton
 public class ServiceImpl implements Service {
 
-  @Inject Provider<EntityManager> entityManagerProvider;
+	@Inject
+	Provider<EntityManager> entityManagerProvider;
 
-  EntityManager entityManager;
-  int id = 0;
-  int id_address = 0;
+	EntityManager entityManager;
+	int id = 0;
+	int id_address = 0;
 
-  Address address;
-  Employee employee;
+	Address address;
+	Employee employee;
 
-  @Transactional(rollbackOn = Exception.class)
-  @Override
-  public void insert(String name, String contact, String address) {
-    List<Phone> phoneList = new ArrayList<>();
-    entityManager = entityManagerProvider.get();
+	@Transactional(rollbackOn = Exception.class)
+	@Override
+	public void insert(String name, String contact, String address) {
+		List<Phone> phoneList = new ArrayList<>();
+		entityManager = entityManagerProvider.get();
 
-    employee = new Employee();
-    employee.setName(name);
+		employee = new Employee();
+		employee.setName(name);
 
-    phoneList.add(new Phone(contact));
-    employee.setPhone(phoneList);
+		phoneList.add(new Phone(contact));
+		employee.setPhone(phoneList);
 
-    @SuppressWarnings("unchecked")
-    List<Address> cityList =
-        entityManager.createQuery("from Address a where a.city='" + address + "'").getResultList();
+		@SuppressWarnings("unchecked")
+		List<Address> cityList = entityManager.createQuery("from Address a where a.city='" + address + "'")
+				.getResultList();
 
-    if (cityList.isEmpty()) {
+		if (cityList.isEmpty()) {
 
-      this.address = new Address();
-      this.address.setCity(address);
+			this.address = new Address();
+			this.address.setCity(address);
 
-    } else {
+		} else {
 
-      this.address = cityList.get(0);
+			this.address = cityList.get(0);
 
-    }
-    employee.setAddress(this.address);
-    entityManager.persist(employee);
-  }
+		}
+		employee.setAddress(this.address);
+		entityManager.persist(employee);
+	}
 
-  @Override
-  public List<Employee> showAllEmployees() {
-    entityManager = entityManagerProvider.get();
-    List<Employee> employeeList = new ArrayList<>();
+	@Override
 
-    employeeList = entityManager.createQuery("from Employee").getResultList();
+	public List<Employee> showAllEmployees() {
+		entityManager = entityManagerProvider.get();
+		List<Employee> employeeList = new ArrayList<>();
 
-    return employeeList;
-  }
+		employeeList = entityManager.createQuery("from Employee").getResultList();
 
-  @Override
-  public void delete(int id) {
-    entityManager = entityManagerProvider.get();
-    employee = entityManager.find(Employee.class, id);
-    System.out.println("inside deleteimpl" );  
-    if (employee != null) {
-      entityManager.remove(employee);
-      System.out.println("user is deleted");
-  }
-  }
+		return employeeList;
+	}
+
+	@Override
+	@Transactional(rollbackOn = Exception.class)
+	public void delete(int id) {
+		entityManager = entityManagerProvider.get();
+		employee = entityManager.find(Employee.class, id);
+
+
+		if (employee != null) {
+			entityManager.remove(employee);
+		}
+		
 }
+}
+

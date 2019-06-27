@@ -36,9 +36,8 @@
         
         </tbody>
       </table> 
-      <input type="submit" value="Submit" name="button" />  
-    
-    <table border="1" cellpadding="4">
+      <input type="submit" value="Submit" name="button" /> 
+      <table border="1" cellpadding="4">
             <caption><h2>List of Users</h2></caption>
             <tr>
                 <th>ID</th>
@@ -51,14 +50,13 @@
                 <tr>
                     <td><c:out value="${user.id}" /></td>
                     <td><c:out value="${user.name}" /></td>
-                    <td><c:forEach items="${user.phone}" var="phone">
-                    <c:out value="${phone.phone_number}" /></td>
+                    <td><c:forEach items="${user.phone}" var="phone"><c:out value="${phone.phone_number}" /></td>
                     <td><c:out value="${user.address.city}" /></c:forEach></td>
                     
                     <td>
                      <a href="edit?id=<c:out value='${user.id}' />">Edit</a>
                      &nbsp;&nbsp;&nbsp;&nbsp;
-                     <a href="<%=request.getContextPath() %>/delete">Delete</a>                     
+                     <a href="<%=request.getContextPath() %>/delete?id=<c:out value='${user.id}' />">Delete</a>                     
                     </td>
                 </tr>
             </c:forEach>
