@@ -25,10 +25,11 @@
         </tr>
       
         <tr>
-          <td>Contact No</td>
+          <td>Contact No 1:</td>
           <td><input type="text" name="contact" maxlength="10" required/></td>
+          
         </tr>
-        
+        <tr><td>Contact No 2:</td><td><input type="text" name="contact" maxlength="10" /></td></tr>
         <tr>
           <td>City</td>
           <td><input type="text" name="city" maxlength="15" required/></td>
@@ -45,7 +46,8 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Phone</th>
+                <th>Phone 1</th>
+                
                 <th>Address</th>
                 
             </tr>

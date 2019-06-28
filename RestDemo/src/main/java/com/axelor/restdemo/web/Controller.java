@@ -40,7 +40,7 @@ public class Controller {
 
 	@Path("/add")
 	@POST
-	public void insert(@FormParam("name") String name, @FormParam("contact") String contact,
+	public void insert(@FormParam("name") String name, @FormParam("contact") String[] contact,
 			@FormParam("city") String address, @Context HttpServletRequest request,
 			@Context HttpServletResponse response) throws ServletException, IOException {
 
@@ -60,11 +60,12 @@ public class Controller {
 
 	@Path("/edit")
 	@GET
-	public void editEmployeeTest(@QueryParam("id") int id, @Context HttpServletRequest request,
+	public void editEmployee(@QueryParam("id") int id, @Context HttpServletRequest request,
 			@Context HttpServletResponse response) throws ServletException, IOException {
 
 		Employee employee = service.edit(id);	
 		request.setAttribute("employeeDetails", employee);
+		System.out.println("Inside controller edit"+employee);
 		request.getRequestDispatcher("/edit.jsp").forward(request, response);
 
 	}
@@ -77,7 +78,8 @@ public class Controller {
 			@FormParam("updatedContact") String contact, @FormParam("updatedCity") String address,
 			@Context HttpServletRequest request, @Context HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		System.out.println("inside update controller"+"id="+id+"name="+name+"contact="+contact+"address="+address);
 		service.update(id, name, contact, address);
 		response.sendRedirect(request.getContextPath());
 
