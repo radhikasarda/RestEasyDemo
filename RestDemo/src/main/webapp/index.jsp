@@ -57,7 +57,7 @@
                     <td><c:out value="${employee.address.city}" /></c:forEach></td>
                     
                     <td>
-                     <a href="edit?id=<c:out value='${employee.id}' />">Edit</a>
+                     <a href="<%=request.getContextPath() %>/edit?id=<c:out value='${employee.id}' />">Edit</a>
                      &nbsp;&nbsp;&nbsp;&nbsp;
                      <a href="<%=request.getContextPath() %>/delete?id=<c:out value='${employee.id}' />">Delete</a>                     
                     </td>

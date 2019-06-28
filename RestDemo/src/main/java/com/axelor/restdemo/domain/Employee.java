@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,12 +23,12 @@ public class Employee {
 	private int id;
 	private String name;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "EMPLOYEE_PHONE", joinColumns = { @JoinColumn(name = "EMPLOYEE_ID") }, inverseJoinColumns = { @JoinColumn(name = "PHONE_ID") })
+	@OneToMany(mappedBy = "employee",cascade = CascadeType.ALL ,orphanRemoval = true,fetch = FetchType.EAGER)
+	//@JoinTable(name = "EMPLOYEE_PHONE", joinColumns = { @JoinColumn(name = "EMPLOYEE_ID") }, inverseJoinColumns = { @JoinColumn(name = "PHONE_ID") })
 	private List<Phone> phone=new ArrayList<Phone>();
 	
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL )
 	@JoinColumn(name="address_id")
 	private Address address;
 	

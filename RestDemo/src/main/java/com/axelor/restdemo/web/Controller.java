@@ -27,14 +27,15 @@ public class Controller {
 	@Inject
 	Service service;
 
+	
 	@GET
 	public void showEmployees(@Context HttpServletRequest request, @Context HttpServletResponse response)
 			throws ServletException, IOException {
-		
-			List<Employee> employeeList = service.showAllEmployees();	
-			request.setAttribute("listEmployee", employeeList);
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
-	
+
+		List<Employee> allEmployeeList = service.showAllEmployees();
+		request.setAttribute("listEmployee", allEmployeeList);
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
+
 	}
 
 	@Path("/add")
@@ -43,9 +44,8 @@ public class Controller {
 			@FormParam("city") String address, @Context HttpServletRequest request,
 			@Context HttpServletResponse response) throws ServletException, IOException {
 
-			service.insert(name, contact, address);
-			showEmployees(request, response);
-	
+		service.insert(name, contact, address);
+		response.sendRedirect(request.getContextPath());
 	}
 
 	@Path("/delete")
@@ -53,20 +53,45 @@ public class Controller {
 	public void deleteEmployee(@QueryParam("id") int id, @Context HttpServletRequest request,
 			@Context HttpServletResponse response) throws ServletException, IOException {
 
-			service.delete(id);
-			showEmployees(request, response);
-	
+		service.delete(id);
+		response.sendRedirect(request.getContextPath());
 	}
+
+
+	@Path("/edit")
+	@GET
+	public void editEmployeeTest(@QueryParam("id") int id, @Context HttpServletRequest request,
+			@Context HttpServletResponse response) throws ServletException, IOException {
+
+		Employee employee = service.edit(id);	
+		request.setAttribute("employeeDetails", employee);
+		request.getRequestDispatcher("/edit.jsp").forward(request, response);
+
+	}
+	
+	
+
+	@Path("/update")
+	@POST
+	public void updateEmployee(@QueryParam("id") int id, @FormParam("updatedName") String name,
+			@FormParam("updatedContact") String contact, @FormParam("updatedCity") String address,
+			@Context HttpServletRequest request, @Context HttpServletResponse response)
+			throws ServletException, IOException {
+
+		service.update(id, name, contact, address);
+		response.sendRedirect(request.getContextPath());
+
+	}
+
 	@Path("/search")
 	@POST
-	public void searchEmployee(@FormParam("searchedName") String searchedName,@Context HttpServletRequest request,
+	public void searchEmployee(@FormParam("searchedName") String searchedName, @Context HttpServletRequest request,
 			@Context HttpServletResponse response) throws ServletException, IOException {
-		
-			List<Employee> employeeDetailList=service.search(searchedName);
-			request.setAttribute("detailList", employeeDetailList);
-			request.getRequestDispatcher("/search.jsp").forward(request, response);
-		
+
+		List<Employee> searchedEmployee = service.search(searchedName);
+		request.setAttribute("detailList", searchedEmployee);
+		request.getRequestDispatcher("/search.jsp").forward(request, response);
+
 	}
-	
 
 }

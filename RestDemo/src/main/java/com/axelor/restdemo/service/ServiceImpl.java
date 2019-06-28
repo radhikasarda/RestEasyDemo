@@ -26,6 +26,7 @@ public class ServiceImpl implements Service {
 
 	Address address;
 	Employee employee;
+	Phone phone;
 
 	@Transactional(rollbackOn = Exception.class)
 	@Override
@@ -35,9 +36,10 @@ public class ServiceImpl implements Service {
 
 		employee = new Employee();
 		employee.setName(name);
-
-		phoneList.add(new Phone(contact));
-		employee.setPhone(phoneList);
+		phone = new Phone();
+		phone.setPhone_number(contact);
+		employee.getPhone().add(phone);
+		phone.setEmployee(employee);
 
 		@SuppressWarnings("unchecked")
 		List<Address> cityList = entityManager.createQuery("from Address a where a.city='" + address + "'")
@@ -55,45 +57,73 @@ public class ServiceImpl implements Service {
 		}
 		employee.setAddress(this.address);
 		entityManager.persist(employee);
+
 	}
 
 	@Override
-
+	@Transactional
 	public List<Employee> showAllEmployees() {
 		entityManager = entityManagerProvider.get();
 		List<Employee> employeeList = new ArrayList<>();
-
 		employeeList = entityManager.createQuery("from Employee").getResultList();
-
 		return employeeList;
 	}
 
 	@Override
-	@Transactional(rollbackOn = Exception.class)
+	@Transactional
 	public void delete(int id) {
 		entityManager = entityManagerProvider.get();
 		employee = entityManager.find(Employee.class, id);
-
-
 		if (employee != null) {
 			entityManager.remove(employee);
 		}
-		
-}
 
+	}
+
+	@Transactional
 	@Override
 	public List<Employee> search(String name) {
+
 		entityManager = entityManagerProvider.get();
 		List<Employee> employeeDetailList = new ArrayList<Employee>();
-		employeeDetailList=entityManager.createQuery("from Employee e where e.name='" + name + "'").getResultList();
-		for (Employee e : employeeDetailList) { 		      
-	           System.out.println(e); 		
-	      }
+		employeeDetailList = entityManager.createQuery("from Employee e where e.name='" + name + "'").getResultList();
 		return employeeDetailList;
+
 	}
 
 
 
+	@Transactional
+	@Override
+	public void update(int id, String name, String contact, String address) {
+
+		entityManager = entityManagerProvider.get();
+		Employee employeeobj;
+		employeeobj = entityManager.find(Employee.class, id);
+		employeeobj.setName(name);
+
+		Phone phoneobj;
+		phoneobj = entityManager.find(Phone.class, id);
+		phoneobj.setPhone_number(contact);
+		employeeobj.getPhone().add(phoneobj);
+		phoneobj.setEmployee(employeeobj);
+
+		Address addressobj;
+		addressobj = entityManager.find(Address.class, id);
+		addressobj.setCity(address);
+
+		employeeobj.setAddress(addressobj);
+
+		entityManager.persist(employeeobj);
+
+	}
+
+	@Transactional
+	@Override
+	public Employee edit(int id) {
+		entityManager = entityManagerProvider.get();
+		employee = entityManager.find(Employee.class, id);
+		return employee;
+	}
 
 }
-

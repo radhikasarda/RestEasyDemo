@@ -1,28 +1,46 @@
 package com.axelor.restdemo.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Phone {
 
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int phone_id;
 	
 	private  String phone_number;
 	
-	Phone(){}
+	@ManyToOne(cascade=CascadeType.ALL)  
+	@JoinColumn(name="id")
+	private Employee employee;
+	
+	public Phone(){}
 
-	public Phone(String phone_number) {
+	public Phone(Employee employee,String phone_number) {
 		super();
-		
+		this.employee=employee;
 		this.phone_number = phone_number;
+	
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	
 	public int getPhone_id() {
 		return phone_id;
 	}
@@ -44,6 +62,10 @@ public class Phone {
 		return "Phone [phone_id=" + phone_id + ", phone_number=" + phone_number + "]";
 	}
 
+	
+
+	
+	
 
 	
 	
