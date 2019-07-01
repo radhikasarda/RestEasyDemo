@@ -28,6 +28,7 @@
           <td>Contact No 1:</td>
           <td><input type="text" name="contact" maxlength="10" required/></td>
           
+          
         </tr>
         <tr><td>Contact No 2:</td><td><input type="text" name="contact" maxlength="10" /></td></tr>
         <tr>
@@ -47,7 +48,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Phone 1</th>
-                
+                 <th>Phone 2</th>
                 <th>Address</th>
                 
             </tr>
@@ -55,8 +56,12 @@
                 <tr>
                     <td><c:out value="${employee.id}" /></td>
                     <td><c:out value="${employee.name}" /></td>
-                    <td><c:forEach items="${employee.phone}" var="phone"><c:out value="${phone.phone_number}" /></td>
-                    <td><c:out value="${employee.address.city}" /></c:forEach></td>
+                    
+                    <c:forEach items="${employee.phone}" var="phone">
+                    <td><c:out value="${phone.phone_number}" /></td>
+                    </c:forEach>
+                    
+                    <td><c:out value="${employee.address.city}" /></td>
                     
                     <td>
                      <a href="<%=request.getContextPath() %>/edit?id=<c:out value='${employee.id}' />">Edit</a>

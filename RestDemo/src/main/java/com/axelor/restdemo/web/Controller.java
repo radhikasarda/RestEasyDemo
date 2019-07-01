@@ -34,6 +34,7 @@ public class Controller {
 
 		List<Employee> allEmployeeList = service.showAllEmployees();
 		request.setAttribute("listEmployee", allEmployeeList);
+		
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 
 	}
@@ -65,7 +66,6 @@ public class Controller {
 
 		Employee employee = service.edit(id);	
 		request.setAttribute("employeeDetails", employee);
-		System.out.println("Inside controller edit"+employee);
 		request.getRequestDispatcher("/edit.jsp").forward(request, response);
 
 	}
@@ -75,11 +75,11 @@ public class Controller {
 	@Path("/update")
 	@POST
 	public void updateEmployee(@QueryParam("id") int id, @FormParam("updatedName") String name,
-			@FormParam("updatedContact") String contact, @FormParam("updatedCity") String address,
+			@FormParam("updatedContact") String[] contact, @FormParam("updatedCity") String address,
 			@Context HttpServletRequest request, @Context HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		System.out.println("inside update controller"+"id="+id+"name="+name+"contact="+contact+"address="+address);
+		System.out.println("inside update controller"+"id="+id+"name="+name+"contact="+contact[0]+"contact="+contact[1]+"address="+address);
 		service.update(id, name, contact, address);
 		response.sendRedirect(request.getContextPath());
 

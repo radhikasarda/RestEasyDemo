@@ -26,27 +26,26 @@ public class ServiceImpl implements Service {
 
 	Address address;
 	Employee employee;
-	
 
 	@Transactional(rollbackOn = Exception.class)
 	@Override
 	public void insert(String name, String[] contact, String address) {
 		List<Phone> phoneList = new ArrayList<>();
 		entityManager = entityManagerProvider.get();
-		//Phone phone;
+
 		employee = new Employee();
 		employee.setName(name);
-		
+
 		Phone phoneobj1 = new Phone();
-		//Phone phoneobj2=new Phone();
+		Phone phoneobj2 = new Phone();
 		phoneobj1.setPhone_number(contact[0]);
 		employee.getPhone().add(phoneobj1);
 		phoneobj1.setEmployee(employee);
 
-		/*
-		 * phoneobj2.setPhone_number(contact[1]); employee.getPhone().add(phoneobj2);
-		 * phoneobj2.setEmployee(employee)
-		 */;
+		phoneobj2.setPhone_number(contact[1]);
+		employee.getPhone().add(phoneobj2);
+		phoneobj2.setEmployee(employee);
+
 		@SuppressWarnings("unchecked")
 		List<Address> cityList = entityManager.createQuery("from Address a where a.city='" + address + "'")
 				.getResultList();
@@ -83,7 +82,7 @@ public class ServiceImpl implements Service {
 		employee = entityManager.find(Employee.class, id);
 		if (employee != null) {
 			employee.setAddress(null);
-			
+
 			entityManager.remove(employee);
 		}
 
@@ -100,38 +99,43 @@ public class ServiceImpl implements Service {
 
 	}
 
-
-
-	@Transactional
-	@Override
-	public void update(int id, String name, String contact, String address) {
-
-		entityManager = entityManagerProvider.get();
-		Employee employeeobj;
-		employeeobj = entityManager.find(Employee.class, id);
-		employeeobj.setName(name);
-
-		Phone phoneobj;
-		phoneobj = entityManager.find(Phone.class, id);
-		phoneobj.setPhone_number(contact);
-		employeeobj.getPhone().add(phoneobj);
-		phoneobj.setEmployee(employeeobj);
-
-		Address addressobj=new Address();;
-		addressobj.setCity(address);
-		employeeobj.setAddress(addressobj);	
-		entityManager.persist(employeeobj);
-		
-
-	}
-
 	@Transactional
 	@Override
 	public Employee edit(int id) {
 		entityManager = entityManagerProvider.get();
 		employee = entityManager.find(Employee.class, id);
-		System.out.println("inside EditImpl"+employee);
+		System.out.println("inside EditImpl" + employee);
 		return employee;
+	}
+
+	@Transactional
+	@Override
+	public void update(int id, String name, String[] contact, String address) {
+
+		entityManager = entityManagerProvider.get();
+		Employee employeeobj;
+		employeeobj = entityManager.find(Employee.class, id);
+		if (employeeobj.getName() != name) {
+			employeeobj.setName(name);
+		}
+
+		System.out.println(contact.length);
+		List<Phone> phoneList = employeeobj.getPhone();
+
+		int i = 0;
+		for (Phone p : phoneList) {
+			if(p.getPhone_number()!=contact[i]) {
+			p.setPhone_number(contact[i]);
+			
+		}
+			i++;
+		}
+		
+		Address addressobj = employeeobj.getAddress();
+		if (addressobj.getCity() != address) {
+			addressobj.setCity(address);
+		}
+
 	}
 
 }

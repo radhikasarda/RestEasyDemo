@@ -25,10 +25,13 @@
         </tr>
      	 
         <tr>
-          <td>Contact No</td>
+          <td>Contact No 1</td>
           <td><input type="text" name="updatedContact" value="${employeeDetails.phone[0].phone_number}" maxlength="10" required/></td>
         </tr>
-      
+        <tr>
+          <td>Contact No 2</td>
+          <td><input type="text" name="updatedContact" value="${employeeDetails.phone[1].phone_number}" maxlength="10" required/></td>
+        </tr>
         <tr>
           <td>City</td>
           <td><input type="text" name="updatedCity" value="${employeeDetails.address.city}" maxlength="15" required/></td>
